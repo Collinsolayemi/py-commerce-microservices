@@ -6,3 +6,4 @@ from services.product_service.app.models.product import (
 )
 
 __all__ = ["ProductCreate", "ProductResponse", "ProductUpdate", "StockAdjustment"]
+
