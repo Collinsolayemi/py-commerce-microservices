@@ -14,3 +14,4 @@ MONGODB_DB_NAME = os.getenv("MONGODB_DB_NAME", "catalog_db")
 
 # RabbitMQ Configuration
 RABBITMQ_URL = os.getenv("RABBITMQ_URL", "amqp://guest:guest@localhost:5672/")
+
