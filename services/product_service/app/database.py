@@ -124,3 +124,4 @@ class ProductRepository:
                 product["stock_quantity"] += quantity
                 product["reserved_quantity"] = max(0, product["reserved_quantity"] - quantity)
                 product["updated_at"] = datetime.utcnow()
+
