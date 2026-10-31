@@ -57,3 +57,4 @@ async def adjust_stock(product_id: str, adjustment: StockAdjustment):
         await ProductRepository.release_reserved_stock(product_id, 0) # touch
     product["stock_quantity"] = new_stock
     return product
+
