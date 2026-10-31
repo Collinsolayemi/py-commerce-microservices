@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ecommerce-common"
+version = "0.1.0"
+description = "Shared event contracts and RabbitMQ broker utilities for E-Commerce Microservices"
+authors = [{ name = "Collins Olayemi" }]
+requires-python = ">=3.9"
+dependencies = [
+    "pydantic>=2.0.0",
+    "aio-pika>=9.3.0",
+    "python-dotenv>=1.0.0",
+]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["common*"]
+
