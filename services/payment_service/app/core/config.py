@@ -25,3 +25,4 @@ RABBITMQ_URL = os.getenv("RABBITMQ_URL", "amqp://guest:guest@localhost:5672/")
 
 # Payment Simulation Config (success rate 0.0 to 1.0, e.g. 0.9 = 90% success)
 PAYMENT_SUCCESS_RATE = float(os.getenv("PAYMENT_SUCCESS_RATE", "0.9"))
+
