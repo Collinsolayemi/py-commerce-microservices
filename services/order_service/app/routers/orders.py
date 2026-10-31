@@ -138,3 +138,4 @@ async def cancel_order(order_id: str, reason: str = Query("User cancelled")):
             logger.warning(f"Could not publish OrderCancelledEvent: {exc}")
 
     return updated
+
