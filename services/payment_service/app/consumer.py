@@ -134,3 +134,4 @@ class PaymentEventConsumer:
                 )
             except Exception as exc:
                 logger.warning(f"Could not publish PaymentFailedEvent: {exc}")
+

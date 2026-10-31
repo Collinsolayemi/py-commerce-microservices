@@ -181,3 +181,4 @@ class PaymentRepository:
                 query = query.where(PaymentTransactionModel.user_id == user_id)
             result = await session.execute(query)
             return list(result.scalars().all())
+
