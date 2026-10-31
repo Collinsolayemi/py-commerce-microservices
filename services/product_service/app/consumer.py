@@ -94,3 +94,4 @@ class ProductEventConsumer:
         event = PaymentFailedEvent(**data)
         logger.info(f"Releasing stock for cancelled Order {event.order_id} due to payment failure.")
         # In a complete implementation, fetch items from order or store them locally to release
+
