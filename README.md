@@ -4,7 +4,8 @@
 
 An enterprise-grade, asynchronous event-driven e-commerce microservices platform built with **Python**, **FastAPI**, **RabbitMQ** (or Apache Kafka), **PostgreSQL**, **MongoDB**, and **Docker Compose**.
 
-**Repository**: [https://github.com/Collinsolayemi/py-commerce-microservices](https://github.com/Collinsolayemi/py-commerce-microservices)
+**Repository**: [https://github.com/Collinsolayemi/py-commerce-microservices](https://github.com/Collinsolayemi/py-commerce-microservices)  
+📖 **Implementation Guide**: [Step-by-Step Module Guide](IMPLEMENTATION_GUIDE.md)
 
 ---
 
