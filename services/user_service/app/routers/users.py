@@ -147,3 +147,4 @@ async def list_users(
 ):
     """List registered user accounts with pagination."""
     return await UserRepository.list_users(skip=skip, limit=limit)
+
