@@ -17,6 +17,11 @@ from common.config import (
     Queues,
 )
 from common.rabbitmq import RabbitMQClient
+from common.security import (
+    verify_token,
+    get_current_user_id,
+    get_optional_user_id,
+)
 
 __all__ = [
     "BaseEvent",
@@ -32,5 +37,8 @@ __all__ = [
     "RoutingKeys",
     "Queues",
     "RabbitMQClient",
+    "verify_token",
+    "get_current_user_id",
+    "get_optional_user_id",
 ]
 
