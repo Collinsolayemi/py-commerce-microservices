@@ -19,7 +19,7 @@ COPY services/payment_service /app/services/payment_service
 
 ENV PYTHONPATH=/app
 
-EXPOSE 8003
+EXPOSE 8004
 
-CMD ["uvicorn", "services.payment_service.app.main:app", "--host", "0.0.0.0", "--port", "8003"]
+CMD ["uvicorn", "services.payment_service.app.main:app", "--host", "0.0.0.0", "--port", "8004"]
 
