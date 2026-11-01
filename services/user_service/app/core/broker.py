@@ -13,3 +13,4 @@ def set_rabbitmq_client(client: Optional[RabbitMQClient]) -> None:
 
 def get_rabbitmq_client() -> Optional[RabbitMQClient]:
     return _rabbitmq_client
+

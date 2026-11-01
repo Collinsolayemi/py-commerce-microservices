@@ -70,3 +70,4 @@ def decode_access_token(token: str) -> Optional[Dict[str, Any]]:
         return jwt.decode(token, JWT_SECRET_KEY, algorithms=[JWT_ALGORITHM])
     except jwt.PyJWTError:
         return None
+
