@@ -19,7 +19,7 @@ COPY services/order_service /app/services/order_service
 
 ENV PYTHONPATH=/app
 
-EXPOSE 8001
+EXPOSE 8003
 
-CMD ["uvicorn", "services.order_service.app.main:app", "--host", "0.0.0.0", "--port", "8001"]
+CMD ["uvicorn", "services.order_service.app.main:app", "--host", "0.0.0.0", "--port", "8003"]
 

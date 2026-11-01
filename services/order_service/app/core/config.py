@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 SERVICE_NAME = "order-service"
-PORT = int(os.getenv("PORT", "8001"))
+PORT = int(os.getenv("PORT", "8003"))
 
 # PostgreSQL Database Configuration
 POSTGRES_USER = os.getenv("POSTGRES_USER", "postgres")
