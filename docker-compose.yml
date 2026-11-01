@@ -63,8 +63,127 @@ services:
       timeout: 5s
       retries: 5
 
+  # -------------------------------------------------------------
+  # Microservice: User & Authentication Service (Port 8001)
+  # -------------------------------------------------------------
+  user-service:
+    build:
+      context: .
+      dockerfile: services/user_service/Dockerfile
+    container_name: ecommerce-user-service
+    restart: unless-stopped
+    ports:
+      - "8001:8001"
+    environment:
+      - PORT=8001
+      - POSTGRES_HOST=postgres
+      - POSTGRES_PORT=5432
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgrespassword
+      - POSTGRES_DB=users_db
+      - RABBITMQ_URL=amqp://guest:guest@rabbitmq:5672/
+      - JWT_SECRET_KEY=super-secret-ecommerce-jwt-key-2026
+    depends_on:
+      postgres:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+
+  # -------------------------------------------------------------
+  # Microservice: Product & Inventory Service (Port 8002)
+  # -------------------------------------------------------------
+  product-service:
+    build:
+      context: .
+      dockerfile: services/product_service/Dockerfile
+    container_name: ecommerce-product-service
+    restart: unless-stopped
+    ports:
+      - "8002:8002"
+    environment:
+      - PORT=8002
+      - MONGO_HOST=mongodb
+      - MONGO_PORT=27017
+      - MONGO_USER=admin
+      - MONGO_PASSWORD=adminpassword
+      - MONGO_DB=catalog_db
+      - RABBITMQ_URL=amqp://guest:guest@rabbitmq:5672/
+    depends_on:
+      mongodb:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+
+  # -------------------------------------------------------------
+  # Microservice: Order Service & Saga Initiator (Port 8003)
+  # -------------------------------------------------------------
+  order-service:
+    build:
+      context: .
+      dockerfile: services/order_service/Dockerfile
+    container_name: ecommerce-order-service
+    restart: unless-stopped
+    ports:
+      - "8003:8003"
+    environment:
+      - PORT=8003
+      - POSTGRES_HOST=postgres
+      - POSTGRES_PORT=5432
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgrespassword
+      - POSTGRES_DB=orders_db
+      - RABBITMQ_URL=amqp://guest:guest@rabbitmq:5672/
+    depends_on:
+      postgres:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+
+  # -------------------------------------------------------------
+  # Microservice: Payment Service & Idempotency (Port 8004)
+  # -------------------------------------------------------------
+  payment-service:
+    build:
+      context: .
+      dockerfile: services/payment_service/Dockerfile
+    container_name: ecommerce-payment-service
+    restart: unless-stopped
+    ports:
+      - "8004:8004"
+    environment:
+      - PORT=8004
+      - POSTGRES_HOST=postgres
+      - POSTGRES_PORT=5432
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgrespassword
+      - POSTGRES_DB=payments_db
+      - RABBITMQ_URL=amqp://guest:guest@rabbitmq:5672/
+      - PAYMENT_SUCCESS_RATE=0.9
+    depends_on:
+      postgres:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+
+  # -------------------------------------------------------------
+  # Microservice: Notification Service (Port 8005)
+  # -------------------------------------------------------------
+  notification-service:
+    build:
+      context: .
+      dockerfile: services/notification_service/Dockerfile
+    container_name: ecommerce-notification-service
+    restart: unless-stopped
+    ports:
+      - "8005:8005"
+    environment:
+      - PORT=8005
+      - RABBITMQ_URL=amqp://guest:guest@rabbitmq:5672/
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+
 volumes:
   rabbitmq_data:
   postgres_data:
   mongodb_data:
-
