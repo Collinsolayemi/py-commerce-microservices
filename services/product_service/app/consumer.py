@@ -17,6 +17,9 @@ from services.product_service.app.database import ProductRepository
 
 logger = logging.getLogger("product_service.consumer")
 
+# Active order reservations mapping (order_id -> list[OrderItem]) for saga rollback compensation
+_order_reservations: dict[str, list[OrderItem]] = {}
+
 
 class ProductEventConsumer:
     def __init__(self, rabbitmq_client: RabbitMQClient):
@@ -81,6 +84,9 @@ class ProductEventConsumer:
             )
             await self.client.publish(RoutingKeys.INVENTORY_FAILED, fail_event)
         else:
+            # Record reservations for saga compensation tracking
+            _order_reservations[event.order_id] = reserved_items
+
             # Publish InventoryReservedEvent
             logger.info(f"Stock reserved successfully for Order {event.order_id}")
             reserved_event = InventoryReservedEvent(
@@ -93,5 +99,10 @@ class ProductEventConsumer:
         """Compensating action: Payment failed, so release reserved stock."""
         event = PaymentFailedEvent(**data)
         logger.info(f"Releasing stock for cancelled Order {event.order_id} due to payment failure.")
-        # In a complete implementation, fetch items from order or store them locally to release
+        reserved_items = _order_reservations.pop(event.order_id, [])
+        for item in reserved_items:
+            await ProductRepository.release_reserved_stock(item.product_id, item.quantity)
+            logger.info(
+                f"Compensating action complete: released {item.quantity} units for product '{item.product_id}'."
+            )
 
