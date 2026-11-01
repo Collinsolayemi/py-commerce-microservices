@@ -74,3 +74,4 @@ def get_optional_user_id(
         return str(user_id) if user_id else None
     except HTTPException:
         return None
+

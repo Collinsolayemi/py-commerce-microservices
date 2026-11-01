@@ -76,3 +76,4 @@ async def health_check():
         "status": "healthy",
         "service": SERVICE_NAME,
     }
+
