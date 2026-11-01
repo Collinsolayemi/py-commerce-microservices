@@ -176,10 +176,43 @@ common/
 3. Order service transitions to `CANCELLED`.
 4. Product service receives `payment.failed` and adds reserved stock back to available stock.
 
+### Verification Commands:
+Run the comprehensive Saga integration test suite:
+```bash
+python3 -m unittest tests/test_e2e_saga.py
+# Or run the verification runner:
+python3 scripts/verify_e2e.py
+```
+
 ---
 
-## 💡 Recommended Next Action
+## 🔹 Bonus Service: Notification Service (`services/notification_service/`)
 
-Start with **Module 0 & Module 1**:
-1. Create the `common/` package for event schemas.
-2. Create `docker-compose.yml` to boot RabbitMQ, Postgres, and MongoDB.
+> **Goal**: Consume domain events and dispatch customer communications (Email & SMS).
+
+### Tech Stack:
+- **FastAPI** + **aio-pika** (Port `8005`)
+
+### What Was Built:
+1. **Background Consumer**:
+   - Listens to `order.created`, `order.confirmed`, `order.cancelled`, `payment.succeeded`, `payment.failed`, and `inventory.failed`.
+   - Records real-time notification dispatches.
+2. **REST Inspection Endpoints**:
+   - `GET /notifications`: View dispatched notification history.
+   - `GET /notifications/{order_id}`: View notifications for a specific order.
+   - `DELETE /notifications`: Reset notification log.
+
+---
+
+## 🎯 Implementation Status
+
+All roadmap modules are fully implemented:
+- [x] **Module 0**: Shared Core & Events (`common/`)
+- [x] **Module 1**: Local Infrastructure Setup (`docker-compose.yml`)
+- [x] **Module 2**: Product & Inventory Service (`services/product_service/`)
+- [x] **Module 3**: Order Service & Saga (`services/order_service/`)
+- [x] **Module 4**: Payment Service & Idempotency (`services/payment_service/`)
+- [x] **Module 5**: User & Auth Service (`services/user_service/`)
+- [x] **Notification Service**: Customer alerts worker (`services/notification_service/`)
+- [x] **Module 6**: End-to-End Testing & Docker Orchestration (`docker-compose.yml`, `tests/`)
+
