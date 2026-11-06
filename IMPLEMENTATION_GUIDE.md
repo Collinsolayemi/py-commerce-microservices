@@ -16,6 +16,7 @@ flowchart LR
     M3 --> M4["Module 4<br/>Payment Service"]
     M4 --> M5["Module 5<br/>User & Auth Service"]
     M5 --> M6["Module 6<br/>End-to-End Integration"]
+    M6 --> M7["Module 7<br/>Authenticated Order Access"]
 ```
 
 ---
@@ -204,6 +205,33 @@ python3 scripts/verify_e2e.py
 
 ---
 
+## 🔹 Module 7: Authenticated Order Access
+
+> **Goal**: Connect the User Service's JWT login to the Order Service and isolate each customer's orders.
+
+### Implemented Behavior
+- Every `/orders` endpoint requires `Authorization: Bearer <access_token>`.
+- Tokens must have a valid signature, an expiration (`exp`), and a nonempty customer subject (`sub`).
+- `POST /orders` derives customer identity from the token. The legacy body `user_id` is optional; a mismatched value returns 403.
+- `GET /orders` always filters by the token subject. The legacy `user_id` query parameter is accepted only when it matches that subject; mismatches return 403.
+- Reading or cancelling another customer's order returns 404, just like a nonexistent order.
+- Existing order events, pagination, cancellation rules, and internal Saga repository access remain available.
+- Docker Compose passes the same configured `JWT_SECRET_KEY` and `JWT_ALGORITHM` to User and Order services.
+
+### Verification
+```bash
+# From the repository root, after installing the service requirements and common package:
+python3 -m pip install -r requirements-dev.txt
+python3 -m unittest tests.test_order_security tests.test_e2e_saga -v
+PYTHONPATH=common python3 common/tests/test_events.py
+```
+
+The HTTP regression suite uses SQLite and signed JWTs, with a mocked broker. It covers missing, malformed, expired, incorrectly signed, and incomplete tokens; customer impersonation; list/read/cancel ownership; real User Service token compatibility; and existing cancellation rules. The Saga suite verifies internal event processing separately.
+
+This module scopes order endpoints only. It does not add administrator access or change product, payment, notification, or user-profile authorization. Existing HTTP clients must log in and attach their bearer token when accessing orders.
+
+---
+
 ## 🎯 Implementation Status
 
 All roadmap modules are fully implemented:
@@ -216,3 +244,5 @@ All roadmap modules are fully implemented:
 - [x] **Notification Service**: Customer alerts worker (`services/notification_service/`)
 - [x] **Module 6**: End-to-End Testing & Docker Orchestration (`docker-compose.yml`, `tests/`)
 
+
+- [x] **Module 7**: Authenticated Order Access (`common/common/security.py`, Order Service routes, HTTP regression tests)

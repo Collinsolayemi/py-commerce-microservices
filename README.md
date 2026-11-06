@@ -247,3 +247,27 @@ docker compose up --build
 - **Product Service Docs**: [http://localhost:8002/docs](http://localhost:8002/docs)
 - **Order Service Docs**: [http://localhost:8003/docs](http://localhost:8003/docs)
 - **Payment Service Docs**: [http://localhost:8004/docs](http://localhost:8004/docs)
+
+
+## Authenticated Orders (Module 7)
+
+Log in using `POST http://localhost:8001/users/login` and include the returned access token as `Authorization: Bearer <access_token>` on every request to the Order Service at port 8003.
+
+Create an order without supplying a customer ID:
+```bash
+curl -X POST http://localhost:8003/orders \
+  -H "Authorization: Bearer $ACCESS_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"items":[{"product_id":"PRODUCT_ID","quantity":2,"unit_price":12.50}]}'
+```
+
+`GET /orders` lists only the signed-in customer's orders. `GET /orders/{order_id}` and `POST /orders/{order_id}/cancel` require ownership. Missing or invalid tokens return 401; attempts to supply another customer ID return 403; missing or other customers' order IDs return 404. Legacy `user_id` body/query fields are accepted only when they match the token subject.
+
+Set matching `JWT_SECRET_KEY` and `JWT_ALGORITHM` values for User and Order services; Docker Compose now shares those settings. Rebuild both services with `docker compose up -d --build user-service order-service` after upgrading. Other service endpoints retain their existing access behavior.
+
+Run the HTTP and Saga regression tests:
+```bash
+python3 -m pip install -r requirements-dev.txt
+python3 -m unittest tests.test_order_security tests.test_e2e_saga -v
+PYTHONPATH=common python3 common/tests/test_events.py
+```
