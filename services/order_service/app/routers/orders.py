@@ -2,8 +2,9 @@
 
 import logging
 from typing import List, Optional
-from fastapi import APIRouter, HTTPException, status, Query
+from fastapi import APIRouter, HTTPException, status, Query, Depends
 
+from common.security import get_current_user_id
 from common.config import RoutingKeys
 from common.events import OrderCreatedEvent, OrderCancelledEvent, OrderItem as CommonOrderItem
 from services.order_service.app.core.broker import get_rabbitmq_client
@@ -19,10 +20,12 @@ router = APIRouter(prefix="/orders", tags=["Orders"])
 
 
 @router.post("", response_model=OrderResponse, status_code=status.HTTP_201_CREATED)
-async def create_order(payload: OrderCreate):
+async def create_order(payload: OrderCreate, user_id: str = Depends(get_current_user_id)):
     """
     Create a new order in PENDING status and initiate Saga by publishing order.created.
     """
+    if payload.user_id is not None and payload.user_id != user_id:
+        raise HTTPException(status_code=403, detail="Cannot create orders for another customer.")
     if not payload.items:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
@@ -41,7 +44,7 @@ async def create_order(payload: OrderCreate):
 
     try:
         order = await OrderRepository.create_order(
-            user_id=payload.user_id,
+            user_id=user_id,
             items_data=items_data,
         )
     except Exception as exc:
@@ -82,19 +85,22 @@ async def create_order(payload: OrderCreate):
 
 @router.get("", response_model=List[OrderResponse])
 async def list_orders(
-    user_id: Optional[str] = Query(None, description="Filter by customer ID"),
+    user_id: Optional[str] = Query(None, description="Optional legacy filter; must match the authenticated customer"),
+    current_user_id: str = Depends(get_current_user_id),
     skip: int = Query(0, ge=0),
     limit: int = Query(50, ge=1, le=100),
 ):
-    """List orders with pagination and optional user filter."""
-    return await OrderRepository.list_orders(user_id=user_id, skip=skip, limit=limit)
+    """List only the authenticated customer's orders, with pagination."""
+    if user_id is not None and user_id != current_user_id:
+        raise HTTPException(status_code=403, detail="Cannot list another customer's orders.")
+    return await OrderRepository.list_orders(user_id=current_user_id, skip=skip, limit=limit)
 
 
 @router.get("/{order_id}", response_model=OrderResponse)
-async def get_order(order_id: str):
+async def get_order(order_id: str, user_id: str = Depends(get_current_user_id)):
     """Retrieve details and status for a specific order."""
     order = await OrderRepository.get_order(order_id)
-    if not order:
+    if not order or order.user_id != user_id:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail=f"Order with ID '{order_id}' not found.",
@@ -103,10 +109,13 @@ async def get_order(order_id: str):
 
 
 @router.post("/{order_id}/cancel", response_model=OrderResponse)
-async def cancel_order(order_id: str, reason: str = Query("User cancelled")):
+async def cancel_order(
+    order_id: str, reason: str = Query("User cancelled"),
+    user_id: str = Depends(get_current_user_id),
+):
     """Manually cancel a pending order."""
     order = await OrderRepository.get_order(order_id)
-    if not order:
+    if not order or order.user_id != user_id:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail=f"Order with ID '{order_id}' not found.",

@@ -1,0 +1,2 @@
+# Install after the service requirements and editable common package.
+httpx>=0.27,<1

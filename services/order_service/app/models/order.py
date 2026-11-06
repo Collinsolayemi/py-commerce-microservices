@@ -59,7 +59,7 @@ class OrderItemCreate(BaseModel):
 
 
 class OrderCreate(BaseModel):
-    user_id: str = Field(..., description="ID of the purchasing customer")
+    user_id: Optional[str] = Field(None, description="Optional legacy field; must match the authenticated customer")
     items: List[OrderItemCreate] = Field(..., min_items=1, description="List of items in order")
 
 

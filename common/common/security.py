@@ -3,8 +3,11 @@
 import os
 from typing import Optional, Dict, Any
 import jwt
+from dotenv import load_dotenv
 from fastapi import HTTPException, status, Depends
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
+
+load_dotenv()
 
 JWT_SECRET_KEY = os.getenv("JWT_SECRET_KEY", "super-secret-ecommerce-jwt-key-2026")
 JWT_ALGORITHM = os.getenv("JWT_ALGORITHM", "HS256")
@@ -18,7 +21,10 @@ def verify_token(token: str) -> Dict[str, Any]:
     Raises HTTPException(401) if invalid or expired.
     """
     try:
-        payload = jwt.decode(token, JWT_SECRET_KEY, algorithms=[JWT_ALGORITHM])
+        payload = jwt.decode(
+            token, JWT_SECRET_KEY, algorithms=[JWT_ALGORITHM],
+            options={"require": ["exp", "sub"]},
+        )
         return payload
     except jwt.ExpiredSignatureError:
         raise HTTPException(
@@ -49,11 +55,11 @@ def get_current_user_id(
         )
 
     payload = verify_token(credentials.credentials)
-    user_id = payload.get("sub") or payload.get("user_id")
-    if not user_id:
+    user_id = payload.get("sub")
+    if not isinstance(user_id, str) or not user_id.strip():
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Token missing subject or user identifier.",
+            detail="Token missing a valid subject claim.",
             headers={"WWW-Authenticate": "Bearer"},
         )
     return str(user_id)
@@ -70,8 +76,8 @@ def get_optional_user_id(
         return None
     try:
         payload = verify_token(credentials.credentials)
-        user_id = payload.get("sub") or payload.get("user_id")
-        return str(user_id) if user_id else None
+        user_id = payload.get("sub")
+        return user_id if isinstance(user_id, str) and user_id.strip() else None
     except HTTPException:
         return None
 
