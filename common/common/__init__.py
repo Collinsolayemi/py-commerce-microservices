@@ -10,6 +10,9 @@ from common.events import (
     PaymentFailedEvent,
     OrderConfirmedEvent,
     OrderCancelledEvent,
+    ShipmentCreatedEvent,
+    ShipmentDispatchedEvent,
+    ShipmentDeliveredEvent,
 )
 from common.config import (
     ECOMMERCE_EXCHANGE,
@@ -33,6 +36,9 @@ __all__ = [
     "PaymentFailedEvent",
     "OrderConfirmedEvent",
     "OrderCancelledEvent",
+    "ShipmentCreatedEvent",
+    "ShipmentDispatchedEvent",
+    "ShipmentDeliveredEvent",
     "ECOMMERCE_EXCHANGE",
     "RoutingKeys",
     "Queues",

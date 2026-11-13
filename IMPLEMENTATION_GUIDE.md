@@ -261,3 +261,13 @@ All roadmap modules are fully implemented:
 - [x] Cart/API unit tests, HTTP gateway tests, and desktop/mobile browser regression tests.
 
 Run `python3 frontend/server.py` from the repository root. The storefront is available at `http://127.0.0.1:3000`. See [frontend/README.md](frontend/README.md) for full setup and verification.
+
+---
+
+## Module 9: Shipping & Fulfillment Service (`services/shipping_service/`)
+
+- [x] Event-driven shipment provisioning on `order.confirmed` (`PENDING_DISPATCH` with `TRK-...` tracking number) and automatic cancellation on `order.cancelled`.
+- [x] Idempotent shipment creation indexed by `order_id`.
+- [x] Lifecycle endpoints (`GET /shipments`, `POST /shipments`, `GET /shipments/{order_id}`, `POST /shipments/{order_id}/dispatch`, `POST /shipments/{order_id}/deliver`, `POST /shipments/{order_id}/cancel`) emitting `shipment.created`, `shipment.dispatched`, and `shipment.delivered` events.
+- [x] Docker Compose (`shipping-service` on port `8006`) and same-origin storefront proxy (`/api/shipping/`).
+- [x] Unit & API regression tests (`tests/test_shipping_service.py`).

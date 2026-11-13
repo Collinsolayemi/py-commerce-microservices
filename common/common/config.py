@@ -29,6 +29,11 @@ class RoutingKeys:
     PAYMENT_SUCCEEDED = "payment.succeeded"
     PAYMENT_FAILED = "payment.failed"
 
+    # Shipping events
+    SHIPMENT_CREATED = "shipment.created"
+    SHIPMENT_DISPATCHED = "shipment.dispatched"
+    SHIPMENT_DELIVERED = "shipment.delivered"
+
 
 class Queues:
     """Service-specific queue bindings."""
@@ -36,4 +41,5 @@ class Queues:
     ORDER_SERVICE = "order_service_queue"
     PAYMENT_SERVICE = "payment_service_queue"
     NOTIFICATION_SERVICE = "notification_service_queue"
+    SHIPPING_SERVICE = "shipping_service_queue"
 

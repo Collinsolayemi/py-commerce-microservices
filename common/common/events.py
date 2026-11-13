@@ -73,3 +73,29 @@ class OrderCancelledEvent(BaseEvent):
     user_id: str
     reason: str
 
+
+class ShipmentCreatedEvent(BaseEvent):
+    """Emitted by Shipping Service when a confirmed order is queued for fulfillment."""
+    shipment_id: str
+    order_id: str
+    user_id: str
+    tracking_number: str
+    carrier: str
+
+
+class ShipmentDispatchedEvent(BaseEvent):
+    """Emitted by Shipping Service when a shipment leaves the warehouse."""
+    shipment_id: str
+    order_id: str
+    user_id: str
+    tracking_number: str
+    carrier: str
+
+
+class ShipmentDeliveredEvent(BaseEvent):
+    """Emitted by Shipping Service when a shipment is delivered to the customer."""
+    shipment_id: str
+    order_id: str
+    user_id: str
+    tracking_number: str
+
