@@ -17,6 +17,7 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from common.config import RoutingKeys
+from common.rabbitmq import RabbitMQClient
 from services.shipping_service.app.consumer import ShippingConsumer
 from services.shipping_service.app.main import app
 from services.shipping_service.app.models import ShipmentStatus, shipment_repo
@@ -30,7 +31,7 @@ class TestShippingService(unittest.IsolatedAsyncioTestCase):
         shipment_repo.clear()
 
     async def test_order_confirmed_event_creates_shipment_idempotently(self) -> None:
-        mock_broker = AsyncMock()
+        mock_broker = AsyncMock(spec=RabbitMQClient)
         consumer = ShippingConsumer(mock_broker)
 
         payload = {"order_id": "ord-101", "user_id": "usr-1"}

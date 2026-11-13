@@ -2,10 +2,12 @@
 
 from __future__ import annotations
 
+import json
 import logging
 from typing import Any, Dict, Optional
+from aio_pika.abc import AbstractIncomingMessage
 
-from common.config import ECOMMERCE_EXCHANGE, Queues, RoutingKeys
+from common.config import Queues, RoutingKeys
 from common.events import (
     OrderCancelledEvent,
     OrderConfirmedEvent,
@@ -26,14 +28,20 @@ class ShippingConsumer:
     async def start(self) -> None:
         if self.rabbitmq is None:
             return
-        await self.rabbitmq.consume(
+        await self.rabbitmq.setup_consumer(
             queue_name=Queues.SHIPPING_SERVICE,
             routing_keys=[
                 RoutingKeys.ORDER_CONFIRMED,
                 RoutingKeys.ORDER_CANCELLED,
             ],
-            callback=self.handle_event,
+            callback=self.handle_message,
         )
+
+    async def handle_message(self, message: AbstractIncomingMessage) -> None:
+        async with message.process():
+            routing_key = message.routing_key or ""
+            payload = json.loads(message.body.decode("utf-8"))
+            await self.handle_event(payload, routing_key)
 
     async def handle_event(self, payload: Dict[str, Any], routing_key: str) -> None:
         if routing_key == RoutingKeys.ORDER_CONFIRMED:
@@ -44,9 +52,8 @@ class ShippingConsumer:
             )
             if created and self.rabbitmq is not None:
                 await self.rabbitmq.publish(
-                    exchange_name=ECOMMERCE_EXCHANGE,
                     routing_key=RoutingKeys.SHIPMENT_CREATED,
-                    message=ShipmentCreatedEvent(
+                    event=ShipmentCreatedEvent(
                         shipment_id=shipment.shipment_id,
                         order_id=shipment.order_id,
                         user_id=shipment.user_id,
@@ -70,4 +77,3 @@ class ShippingConsumer:
                     event.order_id,
                     existing.tracking_number,
                 )
-

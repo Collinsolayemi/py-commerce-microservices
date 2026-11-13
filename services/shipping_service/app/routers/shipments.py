@@ -5,12 +5,14 @@ from __future__ import annotations
 from typing import List, Optional
 from fastapi import APIRouter, HTTPException, Query, Request, status
 
-from common.config import ECOMMERCE_EXCHANGE, RoutingKeys
+from common.config import RoutingKeys
 from common.events import (
+    BaseEvent,
     ShipmentCreatedEvent,
     ShipmentDeliveredEvent,
     ShipmentDispatchedEvent,
 )
+from common.rabbitmq import RabbitMQClient
 from services.shipping_service.app.models import (
     CreateShipmentRequest,
     Shipment,
@@ -21,13 +23,12 @@ from services.shipping_service.app.models import (
 router = APIRouter(prefix="/shipments", tags=["Shipments"])
 
 
-async def _publish_if_connected(request: Request, routing_key: str, event) -> None:
-    client = getattr(request.app.state, "rabbitmq_client", None)
-    if client is not None and getattr(client, "is_connected", False):
+async def _publish_if_connected(request: Request, routing_key: str, event: BaseEvent) -> None:
+    client: Optional[RabbitMQClient] = getattr(request.app.state, "rabbitmq_client", None)
+    if client is not None and client.exchange is not None:
         await client.publish(
-            exchange_name=ECOMMERCE_EXCHANGE,
             routing_key=routing_key,
-            message=event,
+            event=event,
         )
 
 
