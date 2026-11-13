@@ -13,3 +13,4 @@ COPY services /app/services
 EXPOSE 8006
 
 CMD ["uvicorn", "services.shipping_service.app.main:app", "--host", "0.0.0.0", "--port", "8006"]
+

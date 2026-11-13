@@ -70,3 +70,4 @@ class ShippingConsumer:
                     event.order_id,
                     existing.tracking_number,
                 )
+
