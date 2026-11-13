@@ -186,6 +186,20 @@ services:
       rabbitmq:
         condition: service_healthy
 
+  # FORME storefront and same-origin API gateway (http://localhost:3000)
+  storefront:
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+    container_name: ecommerce-storefront
+    restart: unless-stopped
+    ports:
+      - "3000:80"
+    depends_on:
+      - user-service
+      - product-service
+      - order-service
+
 volumes:
   rabbitmq_data:
   postgres_data:

@@ -17,6 +17,7 @@ flowchart LR
     M4 --> M5["Module 5<br/>User & Auth Service"]
     M5 --> M6["Module 6<br/>End-to-End Integration"]
     M6 --> M7["Module 7<br/>Authenticated Order Access"]
+    M7 --> M8["Module 8<br/>Customer Storefront"]
 ```
 
 ---
@@ -246,3 +247,17 @@ All roadmap modules are fully implemented:
 
 
 - [x] **Module 7**: Authenticated Order Access (`common/common/security.py`, Order Service routes, HTTP regression tests)
+
+
+## Module 8: FORME Customer Storefront
+
+- [x] Responsive editorial storefront and original local product illustrations.
+- [x] Live catalog search, inferred categories, sorting, product details, and saved favorites.
+- [x] Persistent shopping bag with stock limits and live price/availability review at checkout.
+- [x] Registration, JWT login, account access, and sign out.
+- [x] Authenticated order creation, order tracking, automatic status refresh, and pending-order cancellation.
+- [x] Same-origin local Python gateway and nginx/Docker Compose hosting.
+- [x] Explicit offline preview, service errors, and session-expiration handling.
+- [x] Cart/API unit tests, HTTP gateway tests, and desktop/mobile browser regression tests.
+
+Run `python3 frontend/server.py` from the repository root. The storefront is available at `http://127.0.0.1:3000`. See [frontend/README.md](frontend/README.md) for full setup and verification.

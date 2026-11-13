@@ -271,3 +271,12 @@ python3 -m pip install -r requirements-dev.txt
 python3 -m unittest tests.test_order_security tests.test_e2e_saga -v
 PYTHONPATH=common python3 common/tests/test_events.py
 ```
+
+
+## FORME customer storefront
+
+The `frontend/` directory contains a complete responsive storefront: product browsing, search and sorting, favorites, a persistent shopping bag, registration/login, authenticated checkout, and order tracking/cancellation.
+
+Run `python3 frontend/server.py` and open **http://127.0.0.1:3000**, or start the complete Docker Compose stack and open **http://localhost:3000**. The storefront proxies the existing User, Product, and Order APIs through one origin. If the catalog service is offline, it shows a labeled preview collection with checkout disabled.
+
+See [frontend/README.md](frontend/README.md) for setup, gateway configuration, test commands, and the current API's integration limits.

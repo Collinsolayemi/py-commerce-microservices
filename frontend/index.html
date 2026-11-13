@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f6f5f0">
+  <meta name="description" content="FORME — thoughtful objects for the way you live. Discover considered essentials for your home and everyday.">
+  <title>FORME — Everyday, considered.</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div class="announcement">A little less ordinary. A little more you. <span>Discover the collection ↗</span></div>
+  <header class="header">
+    <a class="wordmark" href="#shop" aria-label="FORME home">forme<span>®</span></a>
+    <nav aria-label="Main navigation">
+      <a class="nav-link active" href="#shop">Shop all</a>
+      <a class="nav-link" href="#collection">The collection</a>
+      <a class="nav-link" href="#about">Our philosophy</a>
+    </nav>
+    <div class="header-actions">
+      <button class="icon-button" id="search-toggle" aria-label="Search products" title="Search"></button>
+      <button class="icon-button" id="account-button" aria-label="Sign in" title="Account"></button>
+      <button class="cart-button" id="cart-toggle" aria-label="Open shopping bag">Bag <span id="cart-count">0</span></button>
+    </div>
+  </header>
+  <main id="main">
+    <section id="shop-view">
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero-copy">
+          <div class="eyebrow"><span class="tiny-line"></span> GOOD THINGS, WELL CHOSEN</div>
+          <h1 id="hero-title">Everyday,<br><em>considered.</em></h1>
+          <p>Objects that feel right. Details that make a difference.<br class="desktop"> Find your next everyday favorite.</p>
+          <a class="button dark" href="#collection">Explore the collection <span>↗</span></a>
+          <div class="hero-bottom"><span class="mini-mark">✳</span><span>Fewer things.<br>Better things.</span><span class="edition">THE EVERYDAY EDIT<br>VOL. 01 — 2026</span></div>
+        </div>
+        <div class="hero-art" data-tilt>
+          <div class="scene-orbit" aria-hidden="true"></div><div class="scene-plinth" aria-hidden="true"></div>
+          <span class="hero-note">A softer place to land.</span>
+          <img src="assets/chair.svg" alt="Sculptural sage lounge chair with a warm oak frame" class="hero-chair" fetchpriority="high">
+          <div class="hero-caption"><div><span class="eyebrow">DESIGNED FOR SLOW MOMENTS</span><strong>Make room for the everyday.</strong></div><a href="#collection" aria-label="Browse the collection">↗</a></div>
+          <span class="art-number">01 / 06</span><button class="motion-toggle" id="motion-toggle" aria-pressed="false">Pause motion <span aria-hidden="true">Ⅱ</span></button>
+        </div>
+      </section>
+      <div class="values-bar"><span>◈ <b>Thoughtfully selected</b><small>Objects with a purpose</small></span><span>♧ <b>Made for everyday</b><small>More use. More meaning.</small></span><span>↗ <b>A fresh perspective</b><small>Good design, within reach</small></span></div>
+      <section id="collection" class="collection" aria-labelledby="collection-title">
+        <div class="section-heading"><div><div class="eyebrow">THE CONSIDERED COLLECTION</div><h2 id="collection-title">Your everyday, elevated<span>.</span></h2></div><p>Simple things. Lasting impressions.<br>A few favorites to make your own.</p></div>
+        <div id="connection-notice" class="connection-notice" hidden></div>
+        <div class="catalog-toolbar"><div id="categories" class="categories" role="group" aria-label="Product categories"></div><label class="sort-label">Sort by <select id="sort"><option value="featured">Featured</option><option value="price-asc">Price: low to high</option><option value="price-desc">Price: high to low</option><option value="name">Name: A–Z</option></select></label></div>
+        <div class="search-row" id="search-row" hidden><label for="search-input">Find something you love</label><div><input id="search-input" type="search" placeholder="Search the collection…"><button id="search-close" class="text-button">Clear & close</button></div></div>
+        <div class="results-line"><span id="results-count" aria-live="polite">Loading the collection…</span><button id="favorites-toggle" class="text-button" aria-pressed="false">♡ Saved favorites</button></div>
+        <div id="product-grid" class="product-grid" aria-live="polite"></div>
+        <div class="collection-end"><span>Considered choices. Everyday possibilities.</span><span>✳</span></div>
+      </section>
+      <section id="about" class="editorial"><div class="eyebrow">LESS, BUT BETTER.</div><h2>Good design belongs<br>in your <em>everyday.</em></h2><p>We believe the things you surround yourself with should be as useful as they are beautiful. A little intention goes a long way.</p><a href="#collection" class="text-link">Find your next favorite ↗</a><span class="editorial-mark" aria-hidden="true">✳</span></section>
+    </section>
+    <section id="orders-view" class="orders-page" hidden><div class="section-heading"><div><div class="eyebrow">YOUR FORME ACCOUNT</div><h1>Your orders<span>.</span></h1></div><button id="refresh-orders" class="button outline">Refresh orders ↻</button></div><p class="muted">Follow your order from placed to confirmed.</p><div id="orders-list"></div></section>
+  </main>
+  <footer><a class="wordmark" href="#shop">forme<span>®</span></a><p>Good things. For everyday living.</p><div><a href="#collection">Shop the collection ↗</a><button id="footer-orders" class="text-button">My orders</button></div><span>© 2026 FORME</span></footer>
+  <dialog id="cart-dialog" class="drawer" aria-labelledby="bag-title"><div class="dialog-header"><h2 id="bag-title">Your bag<span id="bag-count"></span></h2><button data-close="cart-dialog" class="icon-button" aria-label="Close bag">×</button></div><div id="cart-content"></div></dialog>
+  <dialog id="auth-dialog" class="auth-dialog" aria-labelledby="auth-title"><div class="dialog-header"><a class="wordmark" href="#shop">forme<span>®</span></a><button data-close="auth-dialog" class="icon-button" aria-label="Close account">×</button></div><div class="eyebrow">MAKE YOURSELF AT HOME</div><h2 id="auth-title">Welcome back.</h2><p id="auth-description" class="muted">Your favorites. Your orders. All in one place.</p><form id="auth-form"><label id="name-label" hidden>Full name<input id="auth-name" name="name" autocomplete="name" maxlength="255"></label><label>Email address<input id="auth-email" name="email" type="email" autocomplete="email" required></label><label>Password<input id="auth-password" name="password" type="password" autocomplete="current-password" required minlength="6"></label><p id="auth-error" class="form-error" role="alert"></p><button id="auth-submit" class="button dark" type="submit">Sign in ↗</button></form><p class="auth-switch"><span id="auth-switch-copy">New around here?</span> <button id="auth-switch" class="text-button">Create an account</button></p></dialog>
+  <dialog id="product-dialog" class="product-dialog" aria-labelledby="detail-title"><button data-close="product-dialog" class="detail-close icon-button" aria-label="Close product details">×</button><div id="product-detail"></div></dialog>
+  <dialog id="account-dialog" class="auth-dialog" aria-labelledby="account-title"><div class="dialog-header"><h2 id="account-title">Your account</h2><button data-close="account-dialog" class="icon-button" aria-label="Close account">×</button></div><div id="account-content"></div></dialog>
+  <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+  <script type="module" src="app.js"></script><script type="module" src="motion.js"></script>
+</body>
+</html>

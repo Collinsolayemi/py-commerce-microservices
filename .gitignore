@@ -51,3 +51,8 @@ Thumbs.db
 .pytest_cache/
 .coverage
 htmlcov/
+
+# Frontend dependencies and browser QA artifacts
+frontend/node_modules/
+frontend/test-results/
+frontend/playwright-report/
