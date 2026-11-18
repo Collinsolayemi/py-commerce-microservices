@@ -19,11 +19,14 @@ function reset() {
 function sync() {
   reset();
   document.body.classList.toggle('motion-paused', paused || reducedMotion.matches);
+  if (!toggle) return;
   toggle.setAttribute('aria-pressed', String(paused));
   toggle.disabled = reducedMotion.matches;
   toggle.innerHTML = reducedMotion.matches ? 'Reduced motion' : paused ? 'Resume motion <span aria-hidden="true">▷</span>' : 'Pause motion <span aria-hidden="true">Ⅱ</span>';
 }
-toggle.addEventListener('click', () => { paused = !paused; sync(); });
+if (toggle) {
+  toggle.addEventListener('click', () => { paused = !paused; sync(); });
+}
 reducedMotion.addEventListener('change', () => { paused = reducedMotion.matches; sync(); });
 finePointer.addEventListener('change', reset);
 // Delegation also covers catalog cards created after API calls or filtering.
