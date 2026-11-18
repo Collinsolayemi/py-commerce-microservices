@@ -13,6 +13,7 @@ from common.events import (
     ShipmentCreatedEvent,
     ShipmentDispatchedEvent,
     ShipmentDeliveredEvent,
+    ReviewCreatedEvent,
 )
 from common.config import (
     ECOMMERCE_EXCHANGE,
@@ -39,6 +40,7 @@ __all__ = [
     "ShipmentCreatedEvent",
     "ShipmentDispatchedEvent",
     "ShipmentDeliveredEvent",
+    "ReviewCreatedEvent",
     "ECOMMERCE_EXCHANGE",
     "RoutingKeys",
     "Queues",

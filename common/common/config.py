@@ -34,6 +34,9 @@ class RoutingKeys:
     SHIPMENT_DISPATCHED = "shipment.dispatched"
     SHIPMENT_DELIVERED = "shipment.delivered"
 
+    # Review events
+    REVIEW_CREATED = "review.created"
+
 
 class Queues:
     """Service-specific queue bindings."""

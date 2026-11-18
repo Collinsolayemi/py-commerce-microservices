@@ -271,3 +271,13 @@ Run `python3 frontend/server.py` from the repository root. The storefront is ava
 - [x] Lifecycle endpoints (`GET /shipments`, `POST /shipments`, `GET /shipments/{order_id}`, `POST /shipments/{order_id}/dispatch`, `POST /shipments/{order_id}/deliver`, `POST /shipments/{order_id}/cancel`) emitting `shipment.created`, `shipment.dispatched`, and `shipment.delivered` events.
 - [x] Docker Compose (`shipping-service` on port `8006`) and same-origin storefront proxy (`/api/shipping/`).
 - [x] Unit & API regression tests (`tests/test_shipping_service.py`).
+
+---
+
+## Module 10: Product Reviews & Ratings Service (`services/review_service/`)
+
+- [x] Authenticated product review creation, update, and deletion (`JWT` via `common.security.get_current_user_id`), enforcing one review per customer per product and author-only edit/delete.
+- [x] Public product rating summaries (`GET /reviews/{product_id}`) with `average_rating`, `total_reviews`, and 1–5 star `rating_breakdown`.
+- [x] `ReviewCreatedEvent` (`review.created`) emitted to RabbitMQ when connected, with standalone fallback.
+- [x] Docker Compose (`review-service` on port `8007`) and same-origin storefront proxy (`/api/reviews/`).
+- [x] Unit & API regression tests (`tests/test_review_service.py`).

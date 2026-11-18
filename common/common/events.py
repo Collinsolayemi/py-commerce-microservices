@@ -99,3 +99,11 @@ class ShipmentDeliveredEvent(BaseEvent):
     user_id: str
     tracking_number: str
 
+
+class ReviewCreatedEvent(BaseEvent):
+    """Emitted by Review Service when a customer submits a product review."""
+    review_id: str
+    product_id: str
+    user_id: str
+    rating: int = Field(ge=1, le=5)
+
