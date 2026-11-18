@@ -13,3 +13,4 @@ COPY services /app/services
 EXPOSE 8007
 
 CMD ["uvicorn", "services.review_service.app.main:app", "--host", "0.0.0.0", "--port", "8007"]
+

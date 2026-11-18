@@ -94,3 +94,4 @@ async def delete_review(
     except PermissionError as exc:
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail=str(exc))
     return Response(status_code=status.HTTP_204_NO_CONTENT)
+

@@ -33,7 +33,7 @@ document.querySelectorAll('dialog').forEach(dialog => dialog.addEventListener('c
 }));
 function productImage(product, className = '') {
   const art = artwork(product);
-  if (art) return `<img class="${className}" src="assets/${art}.svg" alt="Illustration of ${e(product.name)}" loading="lazy">`;
+  if (art) return `<img class="${className}" src="assets/${art}.jpg" alt="${e(product.name)}" loading="lazy">`;
   return `<div class="generic-product" aria-label="${e(product.name)}"><span>f.</span><small>${e(category(product))}</small></div>`;
 }
 function saveCart() { storage.set('cart', state.cart); $('#cart-count').textContent = state.cart.reduce((sum, item) => sum + item.quantity, 0); }
