@@ -224,6 +224,26 @@ services:
       rabbitmq:
         condition: service_healthy
 
+  # -------------------------------------------------------------
+  # Microservice: Promotions & Coupons Service (Port 8008)
+  # -------------------------------------------------------------
+  coupon-service:
+    build:
+      context: .
+      dockerfile: services/coupon_service/Dockerfile
+    container_name: ecommerce-coupon-service
+    restart: unless-stopped
+    ports:
+      - "8008:8008"
+    environment:
+      - COUPON_SERVICE_PORT=8008
+      - RABBITMQ_URL=amqp://guest:guest@rabbitmq:5672/
+      - JWT_SECRET_KEY=${JWT_SECRET_KEY:-super-secret-ecommerce-jwt-key-2026}
+      - JWT_ALGORITHM=${JWT_ALGORITHM:-HS256}
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+
   # FORME storefront and same-origin API gateway (http://localhost:3000)
   storefront:
     build:

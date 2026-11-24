@@ -37,6 +37,11 @@ class RoutingKeys:
     # Review events
     REVIEW_CREATED = "review.created"
 
+    # Coupon / Promotion events
+    COUPON_CREATED = "coupon.created"
+    COUPON_REDEEMED = "coupon.redeemed"
+    COUPON_RELEASED = "coupon.released"
+
 
 class Queues:
     """Service-specific queue bindings."""
@@ -45,4 +50,6 @@ class Queues:
     PAYMENT_SERVICE = "payment_service_queue"
     NOTIFICATION_SERVICE = "notification_service_queue"
     SHIPPING_SERVICE = "shipping_service_queue"
+    COUPON_SERVICE = "coupon_service_queue"
+
 

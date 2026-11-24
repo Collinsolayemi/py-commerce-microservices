@@ -107,3 +107,32 @@ class ReviewCreatedEvent(BaseEvent):
     user_id: str
     rating: int = Field(ge=1, le=5)
 
+
+class CouponCreatedEvent(BaseEvent):
+    """Emitted by Coupon Service when a new promotional code is published."""
+    coupon_id: str
+    code: str
+    discount_type: str
+    discount_value: float
+
+
+class CouponRedeemedEvent(BaseEvent):
+    """Emitted by Coupon Service when a customer redeems a coupon on an order."""
+    redemption_id: str
+    coupon_id: str
+    code: str
+    order_id: str
+    user_id: str
+    discount_amount: float
+    final_amount: float
+
+
+class CouponReleasedEvent(BaseEvent):
+    """Emitted by Coupon Service when a cancelled order releases its coupon usage."""
+    redemption_id: str
+    code: str
+    order_id: str
+    user_id: str
+    reason: str
+
+

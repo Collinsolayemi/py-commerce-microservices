@@ -8,6 +8,9 @@ from common.events import (
     InventoryFailedEvent,
     PaymentSucceededEvent,
     PaymentFailedEvent,
+    CouponCreatedEvent,
+    CouponRedeemedEvent,
+    CouponReleasedEvent,
 )
 
 
@@ -55,8 +58,37 @@ def test_payment_events():
     assert fail_event.reason == "Insufficient funds"
 
 
+def test_coupon_events():
+    created = CouponCreatedEvent(
+        coupon_id="cpn_001",
+        code="WELCOME20",
+        discount_type="PERCENTAGE",
+        discount_value=20.0,
+    )
+    redeemed = CouponRedeemedEvent(
+        redemption_id="rdm_001",
+        coupon_id="cpn_001",
+        code="WELCOME20",
+        order_id="ord_abc123",
+        user_id="usr_999",
+        discount_amount=20.0,
+        final_amount=80.0,
+    )
+    released = CouponReleasedEvent(
+        redemption_id="rdm_001",
+        code="WELCOME20",
+        order_id="ord_abc123",
+        user_id="usr_999",
+        reason="Order cancelled",
+    )
+    assert created.code == "WELCOME20"
+    assert redeemed.final_amount == 80.0
+    assert released.reason == "Order cancelled"
+
+
 if __name__ == "__main__":
     test_order_created_event_serialization()
     test_payment_events()
+    test_coupon_events()
     print("✅ All event schema tests passed successfully!")
 

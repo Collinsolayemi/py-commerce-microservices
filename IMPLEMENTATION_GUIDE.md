@@ -281,3 +281,15 @@ Run `python3 frontend/server.py` from the repository root. The storefront is ava
 - [x] `ReviewCreatedEvent` (`review.created`) emitted to RabbitMQ when connected, with standalone fallback.
 - [x] Docker Compose (`review-service` on port `8007`) and same-origin storefront proxy (`/api/reviews/`).
 - [x] Unit & API regression tests (`tests/test_review_service.py`).
+
+---
+
+## Module 11: Promotions & Coupons Service (`services/coupon_service/`)
+
+- [x] Percentage and fixed-amount promotional codes with optional `min_order_amount`, `max_discount_amount`, `max_uses`, `per_user_limit`, and `expires_at` (`GET /coupons`, `POST /coupons`, `GET /coupons/{code}`, `POST /coupons/{code}/deactivate`).
+- [x] Live discount quote validation (`POST /coupons/validate`) with optional JWT customer context to check per-customer redemption limits before checkout.
+- [x] Authenticated, order-idempotent coupon redemption (`POST /coupons/{code}/redeem` and `GET /coupons/redemptions/{order_id}`) emitting `CouponRedeemedEvent` (`coupon.redeemed`).
+- [x] Compensating Saga consumer (`CouponConsumer`) listening to `order.cancelled` to automatically release redeemed coupon quotas and emit `CouponReleasedEvent` (`coupon.released`).
+- [x] Docker Compose (`coupon-service` on port `8008`) and same-origin storefront proxy (`/api/coupons/`).
+- [x] Unit, JWT authorization, idempotency, and Saga compensation tests (`tests/test_coupon_service.py`).
+
