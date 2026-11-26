@@ -244,6 +244,26 @@ services:
       rabbitmq:
         condition: service_healthy
 
+  # -------------------------------------------------------------
+  # Microservice: Persistent Cart & Wishlist Service (Port 8009)
+  # -------------------------------------------------------------
+  cart-service:
+    build:
+      context: .
+      dockerfile: services/cart_service/Dockerfile
+    container_name: ecommerce-cart-service
+    restart: unless-stopped
+    ports:
+      - "8009:8009"
+    environment:
+      - CART_SERVICE_PORT=8009
+      - RABBITMQ_URL=amqp://guest:guest@rabbitmq:5672/
+      - JWT_SECRET_KEY=${JWT_SECRET_KEY:-super-secret-ecommerce-jwt-key-2026}
+      - JWT_ALGORITHM=${JWT_ALGORITHM:-HS256}
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+
   # FORME storefront and same-origin API gateway (http://localhost:3000)
   storefront:
     build:

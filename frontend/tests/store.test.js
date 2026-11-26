@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { cartTotal, addToCart, reconcileCart, sanitizeCart, filterProducts, escapeHTML, artwork, demoProducts } from '../store.js';
+import { cartTotal, addToCart, reconcileCart, sanitizeCart, filterProducts, escapeHTML, artwork, shippingProgress, previewPromoQuote, userInitials, demoProducts } from '../store.js';
 
 test('cart totals use integer cents rather than accumulating binary rounding errors', () => {
   assert.equal(cartTotal([{ price: 0.1, quantity: 3 }, { price: 0.2, quantity: 1 }]), 0.5);
@@ -34,7 +34,7 @@ test('unchanged inventory does not block checkout and unavailable stock is remov
 });
 test('catalog combines category, search, sort and saved favorites', () => {
   const result = filterProducts(demoProducts, { selected: 'Tech & audio', sort: 'price-asc' });
-  assert.deepEqual(result.map(p => p.id), ['demo-speaker', 'demo-headphones']);
+  assert.deepEqual(result.map(p => p.id), ['demo-speaker', 'demo-headphones', 'demo-turntable']);
   assert.equal(filterProducts(demoProducts, { search: '  LAMP ' })[0].id, 'demo-lamp');
   assert.equal(filterProducts(demoProducts, { favorites: ['demo-chair'] })[0].id, 'demo-chair');
   assert.equal(filterProducts(demoProducts, { favorites: [] }).length, 0);
@@ -46,4 +46,21 @@ test('API text is escaped before inserting it into markup', () => {
 test('unrecognized products get a neutral placeholder rather than an unrelated illustration', () => {
   assert.equal(artwork({ name: 'USB cable' }), null);
   assert.equal(artwork({ name: 'Oak lounge chair' }), 'chair');
+});
+
+test('shipping progress tracks threshold and unlocks complimentary shipping at $150', () => {
+  assert.deepEqual(shippingProgress(90), { threshold: 150, remaining: 60, percent: 60, unlocked: false });
+  assert.deepEqual(shippingProgress(180), { threshold: 150, remaining: 0, percent: 100, unlocked: true });
+});
+test('preview promo quote validates WELCOME20 cap and minimum order', () => {
+  assert.equal(previewPromoQuote('welcome20', 40).valid, false);
+  const q = previewPromoQuote('welcome20', 200);
+  assert.equal(q.valid, true);
+  assert.equal(q.discount_amount, 30);
+  assert.equal(q.final_amount, 170);
+});
+test('userInitials extracts up to two uppercase initials', () => {
+  assert.equal(userInitials('Alice Smith'), 'AS');
+  assert.equal(userInitials('Collins'), 'CO');
+  assert.equal(userInitials(''), '');
 });

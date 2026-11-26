@@ -21,6 +21,8 @@ SERVICES = {
     "shipping": os.environ.get("SHIPPING_SERVICE_URL", "http://127.0.0.1:8006").rstrip("/"),
     "reviews": os.environ.get("REVIEW_SERVICE_URL", "http://127.0.0.1:8007").rstrip("/"),
     "coupons": os.environ.get("COUPON_SERVICE_URL", "http://127.0.0.1:8008").rstrip("/"),
+    "cart": os.environ.get("CART_SERVICE_URL", "http://127.0.0.1:8009").rstrip("/"),
+    "wishlist": os.environ.get("CART_SERVICE_URL", "http://127.0.0.1:8009").rstrip("/"),
 }
 MAX_BODY_BYTES = 1_048_576
 

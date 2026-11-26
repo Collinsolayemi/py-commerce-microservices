@@ -17,6 +17,8 @@ from common.events import (
     CouponCreatedEvent,
     CouponRedeemedEvent,
     CouponReleasedEvent,
+    CartUpdatedEvent,
+    WishlistUpdatedEvent,
 )
 from common.config import (
     ECOMMERCE_EXCHANGE,
@@ -47,6 +49,8 @@ __all__ = [
     "CouponCreatedEvent",
     "CouponRedeemedEvent",
     "CouponReleasedEvent",
+    "CartUpdatedEvent",
+    "WishlistUpdatedEvent",
     "ECOMMERCE_EXCHANGE",
     "RoutingKeys",
     "Queues",

@@ -11,6 +11,8 @@ from common.events import (
     CouponCreatedEvent,
     CouponRedeemedEvent,
     CouponReleasedEvent,
+    CartUpdatedEvent,
+    WishlistUpdatedEvent,
 )
 
 
@@ -86,9 +88,17 @@ def test_coupon_events():
     assert released.reason == "Order cancelled"
 
 
+def test_cart_and_wishlist_events():
+    cart_evt = CartUpdatedEvent(user_id="usr_999", item_count=3, total_amount=149.97)
+    wish_evt = WishlistUpdatedEvent(user_id="usr_999", product_id="prod_101", action="added")
+    assert cart_evt.item_count == 3
+    assert wish_evt.action == "added"
+
+
 if __name__ == "__main__":
     test_order_created_event_serialization()
     test_payment_events()
     test_coupon_events()
+    test_cart_and_wishlist_events()
     print("✅ All event schema tests passed successfully!")
 

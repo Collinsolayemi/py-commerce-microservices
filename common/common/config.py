@@ -42,6 +42,10 @@ class RoutingKeys:
     COUPON_REDEEMED = "coupon.redeemed"
     COUPON_RELEASED = "coupon.released"
 
+    # Cart & Wishlist events
+    CART_UPDATED = "cart.updated"
+    WISHLIST_UPDATED = "wishlist.updated"
+
 
 class Queues:
     """Service-specific queue bindings."""
@@ -51,5 +55,6 @@ class Queues:
     NOTIFICATION_SERVICE = "notification_service_queue"
     SHIPPING_SERVICE = "shipping_service_queue"
     COUPON_SERVICE = "coupon_service_queue"
+    CART_SERVICE = "cart_service_queue"
 
 

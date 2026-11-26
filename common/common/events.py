@@ -136,3 +136,18 @@ class CouponReleasedEvent(BaseEvent):
     reason: str
 
 
+class CartUpdatedEvent(BaseEvent):
+    """Emitted by Cart Service when a customer's shopping cart changes."""
+    user_id: str
+    item_count: int
+    total_amount: float
+
+
+class WishlistUpdatedEvent(BaseEvent):
+    """Emitted by Cart Service when a customer saves or removes a wishlist item."""
+    user_id: str
+    product_id: str
+    action: str
+
+
+

@@ -293,3 +293,14 @@ Run `python3 frontend/server.py` from the repository root. The storefront is ava
 - [x] Docker Compose (`coupon-service` on port `8008`) and same-origin storefront proxy (`/api/coupons/`).
 - [x] Unit, JWT authorization, idempotency, and Saga compensation tests (`tests/test_coupon_service.py`).
 
+---
+
+## Module 12: Persistent Cart & Wishlist Service (`services/cart_service/`)
+
+- [x] Authenticated per-customer shopping cart (`GET /cart`, `POST /cart/items`, `PATCH /cart/items/{product_id}`, `DELETE /cart/items/{product_id}`, `DELETE /cart`) using integer-cent totals and quantity clamping (`1–99`).
+- [x] Authenticated per-customer wishlist (`GET /wishlist`, `POST /wishlist/{product_id}`, `DELETE /wishlist/{product_id}`).
+- [x] `CartUpdatedEvent` (`cart.updated`) and `WishlistUpdatedEvent` (`wishlist.updated`) emitted to RabbitMQ when connected, with standalone fallback.
+- [x] Event-driven consumer (`CartConsumer`) listening to `order.created` to clear the customer's persisted cart automatically on checkout.
+- [x] Docker Compose (`cart-service` on port `8009`) and same-origin storefront proxy (`/api/cart/`, `/api/wishlist/`).
+- [x] Unit, JWT isolation, and event-consumer tests (`tests/test_cart_service.py`).
+

@@ -7,12 +7,15 @@
   <meta name="description" content="FORME — thoughtful objects for the way you live. Discover considered essentials for your home and everyday.">
   <title>FORME — Everyday, considered.</title>
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
-  <div class="announcement">A little less ordinary. A little more you. <span>Discover the collection ↗</span></div>
-  <header class="header">
+  <div class="announcement">Complimentary shipping on orders over $150 · Use code <b>WELCOME20</b> for 20% off <span>Discover the collection ↗</span></div>
+  <header class="header" id="site-header">
     <a class="wordmark" href="#shop" aria-label="FORME home">forme<span>®</span></a>
     <nav aria-label="Main navigation">
       <a class="nav-link active" href="#shop">Shop all</a>
@@ -36,27 +39,125 @@
           <div class="hero-bottom"><span class="mini-mark">✳</span><span>Fewer things.<br>Better things.</span><span class="edition">THE EVERYDAY EDIT<br>VOL. 01 — 2026</span></div>
         </div>
         <div class="hero-art" data-tilt>
-          <span class="hero-note">A softer place to land.</span>
-          <img src="assets/chair.jpg" alt="Sculptural sage lounge chair with a warm oak frame" class="hero-chair" fetchpriority="high">
-          <div class="hero-caption"><div><span class="eyebrow">DESIGNED FOR SLOW MOMENTS</span><strong>Make room for the everyday.</strong></div><a href="#collection" aria-label="Browse the collection">↗</a></div>
-          <span class="art-number">01 / 06</span>
+          <span class="hero-note" id="hero-note">A softer place to land.</span>
+          <img src="assets/chair.jpg" alt="Sculptural sage lounge chair with a warm oak frame" class="hero-chair" id="hero-image" fetchpriority="high">
+          <div class="hero-controls" aria-label="Featured objects">
+            <button type="button" class="hero-arrow" id="hero-prev" aria-label="Previous featured object">←</button>
+            <button type="button" class="hero-arrow" id="hero-next" aria-label="Next featured object">→</button>
+          </div>
+          <div class="hero-caption"><div><span class="eyebrow" id="hero-eyebrow">DESIGNED FOR SLOW MOMENTS</span><strong id="hero-caption-title">Make room for the everyday.</strong></div><a href="#collection" id="hero-cta" aria-label="Browse the collection">↗</a></div>
+          <span class="art-number" id="hero-counter">01 / 06</span>
         </div>
       </section>
       <div class="values-bar"><span>◈ <b>Thoughtfully selected</b><small>Objects with a purpose</small></span><span>♧ <b>Made for everyday</b><small>More use. More meaning.</small></span><span>↗ <b>A fresh perspective</b><small>Good design, within reach</small></span></div>
+      <section class="spaces-section" aria-labelledby="spaces-title">
+        <div class="section-heading">
+          <div><div class="eyebrow">CURATED EDITS</div><h2 id="spaces-title">Shop by space<span>.</span></h2></div>
+          <p>Four quiet chapters for home, desk, and daily transit.</p>
+        </div>
+        <div class="spaces-grid">
+          <button type="button" class="space-card" data-space-cat="Living">
+            <img src="assets/throw.jpg" alt="Living space collection" loading="lazy">
+            <div class="space-overlay"><span class="eyebrow">01 · LIVING</span><strong>Warmth &amp; light ↗</strong></div>
+          </button>
+          <button type="button" class="space-card" data-space-cat="Tech & audio">
+            <img src="assets/turntable.jpg" alt="Tech and audio collection" loading="lazy">
+            <div class="space-overlay"><span class="eyebrow">02 · SOUND</span><strong>Analog &amp; wireless ↗</strong></div>
+          </button>
+          <button type="button" class="space-card" data-space-cat="Studio & kitchen">
+            <img src="assets/kettle.jpg" alt="Studio and kitchen collection" loading="lazy">
+            <div class="space-overlay"><span class="eyebrow">03 · STUDIO &amp; KITCHEN</span><strong>Daily rituals ↗</strong></div>
+          </button>
+          <button type="button" class="space-card" data-space-cat="Everyday carry">
+            <img src="assets/folio.jpg" alt="Everyday carry collection" loading="lazy">
+            <div class="space-overlay"><span class="eyebrow">04 · CARRY</span><strong>Made for transit ↗</strong></div>
+          </button>
+        </div>
+      </section>
       <section id="collection" class="collection" aria-labelledby="collection-title">
         <div class="section-heading"><div><div class="eyebrow">THE CONSIDERED COLLECTION</div><h2 id="collection-title">Your everyday, elevated<span>.</span></h2></div><p>Simple things. Lasting impressions.<br>A few favorites to make your own.</p></div>
         <div id="connection-notice" class="connection-notice" hidden></div>
         <div class="catalog-toolbar"><div id="categories" class="categories" role="group" aria-label="Product categories"></div><label class="sort-label">Sort by <select id="sort"><option value="featured">Featured</option><option value="price-asc">Price: low to high</option><option value="price-desc">Price: high to low</option><option value="name">Name: A–Z</option></select></label></div>
         <div class="search-row" id="search-row" hidden><label for="search-input">Find something you love</label><div><input id="search-input" type="search" placeholder="Search the collection…"><button id="search-close" class="text-button">Clear & close</button></div></div>
-        <div class="results-line"><span id="results-count" aria-live="polite">Loading the collection…</span><button id="favorites-toggle" class="text-button" aria-pressed="false">♡ Saved favorites</button></div>
+        <div class="results-line"><span id="results-count" aria-live="polite">Loading the collection…</span><div class="results-actions"><button id="instock-toggle" class="text-button" aria-pressed="false">In stock only</button><button id="favorites-toggle" class="text-button" aria-pressed="false">♡ Saved favorites</button></div></div>
         <div id="product-grid" class="product-grid" aria-live="polite"></div>
         <div class="collection-end"><span>Considered choices. Everyday possibilities.</span><span>✳</span></div>
       </section>
+      <section class="lookbook" aria-labelledby="lookbook-title">
+        <div class="lookbook-media">
+          <img src="assets/desk-tray.jpg" alt="Walnut desk organizer tray with notebook" loading="lazy">
+          <img src="assets/mug.jpg" alt="Kanso stoneware mug and saucer" loading="lazy">
+        </div>
+        <div class="lookbook-copy">
+          <div class="eyebrow"><span class="tiny-line"></span> THE STUDIO EDIT</div>
+          <h2 id="lookbook-title">Designed for<br><em>focused</em> mornings.</h2>
+          <p>Pair our solid walnut desk organizer, stoneware mug set, and pour-over kettle for a calmer start to the workday. Crafted in small batches with natural finishes that age gracefully.</p>
+          <div class="lookbook-actions">
+            <button type="button" class="button dark" id="shop-studio-edit">Shop Studio &amp; kitchen ↗</button>
+            <button type="button" class="button outline" id="bundle-studio-edit">Add 3-piece edit to bag +</button>
+          </div>
+        </div>
+      </section>
+      <section id="recently-viewed-section" class="recently-viewed" hidden aria-labelledby="recent-title">
+        <div class="results-line"><span class="eyebrow" id="recent-title">RECENTLY VIEWED</span><button type="button" class="text-button" id="clear-recent">Clear</button></div>
+        <div id="recently-viewed-grid" class="recent-grid"></div>
+      </section>
+      <section class="testimonials-band" aria-label="Press and customer notes">
+        <div class="press-strip"><span>AS FEATURED IN</span><b>MONOCLE</b><b>WALLPAPER*</b><b>KINfolk</b><b>ARCHITECTURAL DIGEST</b></div>
+        <div class="testimonials-grid">
+          <blockquote>“The Sunday lounge chair anchors our entire living room—quiet proportions and genuinely comfortable.”<cite>— Maya K., Toronto</cite></blockquote>
+          <blockquote>“Everything feels deliberate. From the stoneware kettle to the packaging, nothing is overdone.”<cite>— Daniel O., London</cite></blockquote>
+          <blockquote>“Fast dispatch and the walnut desk tray transformed my workspace overnight.”<cite>— Claire T., Vancouver</cite></blockquote>
+        </div>
+      </section>
       <section id="about" class="editorial"><div class="eyebrow">LESS, BUT BETTER.</div><h2>Good design belongs<br>in your <em>everyday.</em></h2><p>We believe the things you surround yourself with should be as useful as they are beautiful. A little intention goes a long way.</p><a href="#collection" class="text-link">Find your next favorite ↗</a><span class="editorial-mark" aria-hidden="true">✳</span></section>
+      <section class="newsletter" aria-labelledby="newsletter-title">
+        <div>
+          <div class="eyebrow"><span class="tiny-line"></span> STUDIO NOTES</div>
+          <h2 id="newsletter-title">First to know, never noisy.</h2>
+          <p class="muted">Seasonal releases, small-batch restocks, and quiet notes from the studio.</p>
+        </div>
+        <form id="newsletter-form" class="newsletter-form">
+          <label class="sr-only" for="newsletter-email">Email address</label>
+          <input id="newsletter-email" type="email" placeholder="you@example.com" required>
+          <button type="submit" class="button dark">Join the list ↗</button>
+        </form>
+      </section>
     </section>
     <section id="orders-view" class="orders-page" hidden><div class="section-heading"><div><div class="eyebrow">YOUR FORME ACCOUNT</div><h1>Your orders<span>.</span></h1></div><button id="refresh-orders" class="button outline">Refresh orders ↻</button></div><p class="muted">Follow your order from placed to confirmed.</p><div id="orders-list"></div></section>
   </main>
-  <footer><a class="wordmark" href="#shop">forme<span>®</span></a><p>Good things. For everyday living.</p><div><a href="#collection">Shop the collection ↗</a><button id="footer-orders" class="text-button">My orders</button></div><span>© 2026 FORME</span></footer>
+  <footer class="site-footer">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a class="wordmark" href="#shop">forme<span>®</span></a>
+        <p>Good things. For everyday living. Thoughtfully selected objects for home, studio, and transit.</p>
+      </div>
+      <div class="footer-col">
+        <strong>Collection</strong>
+        <a href="#collection" data-footer-cat="All objects">Shop all</a>
+        <a href="#collection" data-footer-cat="Living">Living</a>
+        <a href="#collection" data-footer-cat="Tech & audio">Tech &amp; audio</a>
+        <a href="#collection" data-footer-cat="Studio & kitchen">Studio &amp; kitchen</a>
+        <a href="#collection" data-footer-cat="Everyday carry">Everyday carry</a>
+      </div>
+      <div class="footer-col">
+        <strong>Account &amp; Care</strong>
+        <button id="footer-orders" class="text-button">My orders</button>
+        <button id="footer-bag" class="text-button">Shopping bag</button>
+        <a href="#about">Our philosophy</a>
+      </div>
+      <div class="footer-col">
+        <strong>Studio</strong>
+        <span>Mon–Fri · 9am–6pm EST</span>
+        <span>Complimentary shipping $150+</span>
+        <span>Promo: WELCOME20</span>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 FORME Studio. All rights reserved.</span>
+      <span>Crafted for everyday living.</span>
+    </div>
+  </footer>
   <dialog id="cart-dialog" class="drawer" aria-labelledby="bag-title"><div class="dialog-header"><h2 id="bag-title">Your bag<span id="bag-count"></span></h2><button data-close="cart-dialog" class="icon-button" aria-label="Close bag">×</button></div><div id="cart-content"></div></dialog>
   <dialog id="auth-dialog" class="auth-dialog" aria-labelledby="auth-title"><div class="dialog-header"><a class="wordmark" href="#shop">forme<span>®</span></a><button data-close="auth-dialog" class="icon-button" aria-label="Close account">×</button></div><div class="eyebrow">MAKE YOURSELF AT HOME</div><h2 id="auth-title">Welcome back.</h2><p id="auth-description" class="muted">Your favorites. Your orders. All in one place.</p><form id="auth-form"><label id="name-label" hidden>Full name<input id="auth-name" name="name" autocomplete="name" maxlength="255"></label><label>Email address<input id="auth-email" name="email" type="email" autocomplete="email" required></label><label>Password<input id="auth-password" name="password" type="password" autocomplete="current-password" required minlength="6"></label><p id="auth-error" class="form-error" role="alert"></p><button id="auth-submit" class="button dark" type="submit">Sign in ↗</button></form><p class="auth-switch"><span id="auth-switch-copy">New around here?</span> <button id="auth-switch" class="text-button">Create an account</button></p></dialog>
   <dialog id="product-dialog" class="product-dialog" aria-labelledby="detail-title"><button data-close="product-dialog" class="detail-close icon-button" aria-label="Close product details">×</button><div id="product-detail"></div></dialog>
